@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
-//test
-const int P1 = 2; // broche 2 du micro-contrÃ´leur se nomme maintenant : p1
+//test 2 
+const int P1 = 2; // broche 2 du micro-contrôleur se nomme maintenant : p1
 const int P2 = 3;
 const int P3 = 4;
 const int P4 = 5;
@@ -38,7 +38,7 @@ pinMode(P10, OUTPUT);
 pinMode(P11, OUTPUT);
 pinMode(P12, OUTPUT);
 }
-void loop() //fonction principale, elle se rÃ©pÃ¨te (sâ€™exÃ©cute) Ã  l'infini
+void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 {
 
   Led1 = 0;
