@@ -1,5 +1,6 @@
 #include <Arduino.h>
-
+#include "lib/rs485/ArduinoRS485.h"  // ArduinoModbus depends on the ArduinoRS485 library
+#include "lib/ArduinoModbus.h"
 //test 2 
 const int P1 = 2; // broche 2 du micro-contrôleur se nomme maintenant : p1
 const int P2 = 3;
@@ -24,6 +25,20 @@ int Ser4;
 
 void setup() //fonction d'initialisation de la carte
 {
+	 Serial.begin(9600);
+
+	  Serial.println("Modbus RTU Server LED");
+
+	  // start the Modbus RTU server, with (slave) id 1
+	  if (!ModbusRTUServer.begin(1, 9600)) {
+	    Serial.println("Failed to start Modbus RTU Server!");
+	    while (1);
+	  }
+
+	  // configure a single coil at address 0x00
+	  ModbusRTUServer.configureCoils(0x00, 1);
+
+
 //contenu de l'initialisation
 pinMode(P1, OUTPUT);
 pinMode(P2, OUTPUT);
@@ -41,7 +56,22 @@ pinMode(P12, OUTPUT);
 void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 {
 
-  Led1 = 0;
+	ModbusRTUServer.poll();
+
+	  // read the current value of the coil
+	  int coilValue = ModbusRTUServer.coilRead(0x00);
+
+	  if (coilValue) {
+	    // coil value set, turn LED on
+	    digitalWrite(P1, HIGH);
+	  } else {
+	    // coild value clear, turn LED off
+	    digitalWrite(P2, HIGH);
+	  }
+
+
+	/*
+  Led1 = 1;
 
   if (Led1 == 0){
     digitalWrite(P1, HIGH); //allumer L1 rouge
@@ -111,5 +141,5 @@ void loop() //fonction principale, elle se répète (s’exécute) à l'infini
     digitalWrite(P12, HIGH);
     }
 
-
+*/
 }
