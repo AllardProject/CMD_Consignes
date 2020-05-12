@@ -15,6 +15,8 @@ const int P10 = 11;
 const int P11 = 12;
 const int P12 = 13;
 
+
+
 void setup() //fonction d'initialisation de la carte
 {
 
@@ -40,23 +42,9 @@ void setup() //fonction d'initialisation de la carte
 	  pinMode(P11, OUTPUT);
 	  pinMode(P12, OUTPUT);
 
-	  // configure a single coil at address 0x00
-	  ModbusRTUServer.configureCoils(0x00, 1);
-	  ModbusRTUServer.configureCoils(0x01, 1);
-	  /*ModbusRTUServer.configureCoils(0x02, 1);
-	  ModbusRTUServer.configureCoils(0x03, 1);
-	  ModbusRTUServer.configureCoils(0x04, 1);
-	  ModbusRTUServer.configureCoils(0x05, 1);
-	  ModbusRTUServer.configureCoils(0x06, 1);
-	  ModbusRTUServer.configureCoils(0x07, 1);
-	  ModbusRTUServer.configureCoils(0x08, 1);
-	  ModbusRTUServer.configureCoils(0x09, 1);
-	  ModbusRTUServer.configureCoils(0x10, 1);
-	  ModbusRTUServer.configureCoils(0x11, 1);
-	  ModbusRTUServer.configureCoils(0x12, 1);
-	  ModbusRTUServer.configureCoils(0x13, 1);
-	  ModbusRTUServer.configureCoils(0x14, 1);
-	  ModbusRTUServer.configureCoils(0x15, 1);*/
+	  // configure coil
+	  ModbusRTUServer.configureCoils(0x00, 12);
+
 
 
 
@@ -69,23 +57,18 @@ void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 	  ModbusRTUServer.poll();
 
 	  // read the current value of the coil
-	  int coilValue0 = ModbusRTUServer.coilRead(0x00); //led
-	  int coilValue1 = ModbusRTUServer.coilRead(0x01); //gâche
-	  /*int coilValue2 = ModbusRTUServer.coilRead(0x02); //led
-	  int coilValue3 = ModbusRTUServer.coilRead(0x03); //gache
-	  int coilValue4 = ModbusRTUServer.coilRead(0x04);	//l
-	  int coilValue5 = ModbusRTUServer.coilRead(0x05);	//g
-	  int coilValue6 = ModbusRTUServer.coilRead(0x06);	//l
-	  int coilValue7 = ModbusRTUServer.coilRead(0x07);	//g
-	  int coilValue8 = ModbusRTUServer.coilRead(0x08); //l
-	  int coilValue9 = ModbusRTUServer.coilRead(0x09); //g
-	  int coilValue10 = ModbusRTUServer.coilRead(0x10);	//l
-	  int coilValue11 = ModbusRTUServer.coilRead(0x11);	//g
-	  int coilValue12 = ModbusRTUServer.coilRead(0x12);	//l
-	  int coilValue13 = ModbusRTUServer.coilRead(0x13);	//g
-	  int coilValue14 = ModbusRTUServer.coilRead(0x14);	//l
-	  int coilValue15 = ModbusRTUServer.coilRead(0x15);	//g*/
+	  int coilValue0 = ModbusRTUServer.coilRead(0x00);
+	  int coilValue1 = ModbusRTUServer.coilRead(0x01);
+	  int coilValue2 = ModbusRTUServer.coilRead(0x02);
+	  int coilValue3 = ModbusRTUServer.coilRead(0x03);
+	  int coilValue4 = ModbusRTUServer.coilRead(0x04);
+	  int coilValue5 = ModbusRTUServer.coilRead(0x05);
+	  int coilValue6 = ModbusRTUServer.coilRead(0x06);
+	  int coilValue7 = ModbusRTUServer.coilRead(0x07);
 
+
+
+	  // casier 1
 	  if (coilValue0 == 0){
 	    digitalWrite(P1, HIGH); //allumer L1 rouge
 	    digitalWrite(P2, LOW); // Eteindre L1 vert
@@ -100,63 +83,69 @@ void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 
 	  if (coilValue1 == 1){
 	    digitalWrite(P3, HIGH); //allumer ser
+	    delay(3000);
+	    coilValue1 = ModbusRTUServer.coilWrite(0x01, 0);
+	    digitalWrite(P3, LOW); //éteindre ser
 
 	  }
-	  Serial.println(coilValue0);
-	  Serial.println(coilValue1);
 
-	  /*
-	  if (Led2 == 1){
-	      digitalWrite(P3, LOW); //Eteindre rouge
-	      digitalWrite(P4, HIGH); // allumer  vert
-	    }
-	 Led3 = 0;
-
-	  if (Led3 == 0){
-	    digitalWrite(P5, HIGH); //allumer L1 rouge
-	    digitalWrite(P6, LOW); // Eteindre L1 vert
-	  }
-	  if (Led3 == 1){
-	      digitalWrite(P5, LOW); //Eteindre rouge
-	      digitalWrite(P6, HIGH); // allumer  vert
+	  // casier 2
+	  if (coilValue2 == 0){
+	    digitalWrite(P4, HIGH); //allumer L1 rouge
+	    digitalWrite(P5, LOW); // Eteindre L1 vert
+	  } else{
+	      digitalWrite(P4, LOW); //Eteindre rouge
+	      digitalWrite(P5, HIGH); // allumer  vert
 	    }
 
 
-	  Led4 = 1;
+	  if (coilValue3 == 1){
+	    digitalWrite(P6, HIGH); //allumer ser
+	    delay(3000);
+	    coilValue1 = ModbusRTUServer.coilWrite(0x01, 0);
+	    digitalWrite(P6, LOW); //éteindre ser
 
-	  if (Led4 == 0){
+	  }
+
+	  // casier 3
+	  if (coilValue4 == 0){
 	    digitalWrite(P7, HIGH); //allumer L1 rouge
 	    digitalWrite(P8, LOW); // Eteindre L1 vert
-	  }
-	  if (Led4 == 1){
+	  } else{
 	      digitalWrite(P7, LOW); //Eteindre rouge
 	      digitalWrite(P8, HIGH); // allumer  vert
 	    }
 
-	  Ser1 = 1;
 
-	  if(Ser1 == 1){
-	    digitalWrite(P9, HIGH); //ouvrir serrure 1
+	  if (coilValue5 == 1){
+	    digitalWrite(P9, HIGH); //allumer ser
+	    delay(3000);
+	    coilValue1 = ModbusRTUServer.coilWrite(0x01, 0);
+	    digitalWrite(P9, LOW); //éteindre ser
+
+	  }
+
+	  // casier 4
+	  if (coilValue6 == 0){
+	    digitalWrite(P10, HIGH); //allumer L1 rouge
+	    digitalWrite(P11, LOW); // Eteindre L1 vert
+	  } else{
+	      digitalWrite(P10, LOW); //Eteindre rouge
+	      digitalWrite(P11, HIGH); // allumer  vert
 	    }
 
-	  Ser2 = 1;
 
-	  if(Ser2 == 1){
-	    digitalWrite(P10, HIGH);
-	    }
+	  if (coilValue7 == 1){
+	    digitalWrite(P12, HIGH); //allumer ser
+	    delay(3000);
+	    coilValue1 = ModbusRTUServer.coilWrite(0x01, 0);
+	    digitalWrite(P12, LOW); //éteindre ser
 
-	     Ser3 = 1;
-
-	  if(Ser3 == 1){
-	    digitalWrite(P11, HIGH);
-	    }
+	  }
 
 
-	     Ser4 = 1;
 
-	  if(Ser4 == 1){
-	    digitalWrite(P12, HIGH);
-	    }*/
+
 
 
 }
