@@ -47,6 +47,7 @@ void setup() //fonction d'initialisation de la carte
 	  // configure coil
 	  ModbusRTUServer.configureCoils(0x00, 12);
 
+	  // congigure EEPROM
 int a =EEPROM.read(0);
 ModbusRTUServer.coilWrite(0x00, a);
 
@@ -92,7 +93,7 @@ void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 	  int coilValue7 = ModbusRTUServer.coilRead(0x07);
 
 
-
+	  // enregistrement des valeur coil dans la mémoir EEPROM
 	  EEPROM.write(0, coilValue0);
 	  EEPROM.write(1, coilValue1);
 	  EEPROM.write(2, coilValue2);
@@ -103,8 +104,6 @@ void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 	  EEPROM.write(7, coilValue7);
 
 
-	  int val = EEPROM.read(0);
-	  Serial.print("VAL : ");Serial.println(val);
 
 	  // casier 1
 	  if (EEPROM.read(0) == 0){
