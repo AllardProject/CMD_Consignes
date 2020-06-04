@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "lib/rs485/ArduinoRS485.h"  // ArduinoModbus depends on the ArduinoRS485 library
 #include "lib/ArduinoModbus.h"
+#include <EEPROM.h>
 
 const int P1 = 2; // broche 2 du micro-contrôleur se nomme maintenant : p1
 const int P2 = 3;
@@ -15,12 +16,13 @@ const int P10 = 11;
 const int P11 = 12;
 const int P12 = 13;
 
+int tempOuvGache = 1000;
 
 
 void setup() //fonction d'initialisation de la carte
 {
 
-	  Serial.println("Modbus RTU Server LED");
+
 
 	  // start the Modbus RTU server, with (slave) id 1
 	  if (!ModbusRTUServer.begin(1, 9600)) {
@@ -45,13 +47,36 @@ void setup() //fonction d'initialisation de la carte
 	  // configure coil
 	  ModbusRTUServer.configureCoils(0x00, 12);
 
+int a =EEPROM.read(0);
+ModbusRTUServer.coilWrite(0x00, a);
 
+int b =EEPROM.read(1);
+ModbusRTUServer.coilWrite(0x01, b);
+
+int c =EEPROM.read(2);
+ModbusRTUServer.coilWrite(0x02, c);
+
+int d =EEPROM.read(3);
+ModbusRTUServer.coilWrite(0x03, d);
+
+int e =EEPROM.read(4);
+ModbusRTUServer.coilWrite(0x04, e);
+
+int f =EEPROM.read(5);
+ModbusRTUServer.coilWrite(0x05, f);
+
+int g =EEPROM.read(6);
+ModbusRTUServer.coilWrite(0x06, g);
+
+int h =EEPROM.read(7);
+ModbusRTUServer.coilWrite(0x07, h);
 
 
 
 }
 void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 {
+
 
 	  // poll for Modbus RTU requests
 	  ModbusRTUServer.poll();
@@ -68,8 +93,21 @@ void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 
 
 
+	  EEPROM.write(0, coilValue0);
+	  EEPROM.write(1, coilValue1);
+	  EEPROM.write(2, coilValue2);
+	  EEPROM.write(3, coilValue3);
+	  EEPROM.write(4, coilValue4);
+	  EEPROM.write(5, coilValue5);
+	  EEPROM.write(6, coilValue6);
+	  EEPROM.write(7, coilValue7);
+
+
+	  int val = EEPROM.read(0);
+	  Serial.print("VAL : ");Serial.println(val);
+
 	  // casier 1
-	  if (coilValue0 == 0){
+	  if (EEPROM.read(0) == 0){
 	    digitalWrite(P1, HIGH); //allumer L1 rouge
 	    digitalWrite(P2, LOW); // Eteindre L1 vert
 	  } else{
@@ -81,16 +119,16 @@ void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 
 
 
-	  if (coilValue1 == 1){
+	  if (EEPROM.read(1) == 1){
 	    digitalWrite(P3, HIGH); //allumer ser
-	    delay(3000);
+	    delay(tempOuvGache);
 	    coilValue1 = ModbusRTUServer.coilWrite(0x01, 0);
 	    digitalWrite(P3, LOW); //éteindre ser
-
+	    EEPROM.write(1, 0);
 	  }
 
 	  // casier 2
-	  if (coilValue2 == 0){
+	  if (EEPROM.read(2) == 0){
 	    digitalWrite(P4, HIGH); //allumer L1 rouge
 	    digitalWrite(P5, LOW); // Eteindre L1 vert
 	  } else{
@@ -99,16 +137,16 @@ void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 	    }
 
 
-	  if (coilValue3 == 1){
+	  if (EEPROM.read(3) == 1){
 	    digitalWrite(P6, HIGH); //allumer ser
-	    delay(3000);
-	    coilValue1 = ModbusRTUServer.coilWrite(0x01, 0);
+	    delay(tempOuvGache);
+	    coilValue3 = ModbusRTUServer.coilWrite(0x03, 0);
 	    digitalWrite(P6, LOW); //éteindre ser
-
+	    EEPROM.write(3, 0);
 	  }
 
 	  // casier 3
-	  if (coilValue4 == 0){
+	  if (EEPROM.read(4) == 0){
 	    digitalWrite(P7, HIGH); //allumer L1 rouge
 	    digitalWrite(P8, LOW); // Eteindre L1 vert
 	  } else{
@@ -117,16 +155,16 @@ void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 	    }
 
 
-	  if (coilValue5 == 1){
+	  if (EEPROM.read(5) == 1){
 	    digitalWrite(P9, HIGH); //allumer ser
-	    delay(3000);
-	    coilValue1 = ModbusRTUServer.coilWrite(0x01, 0);
+	    delay(tempOuvGache);
+	    coilValue5 = ModbusRTUServer.coilWrite(0x05, 0);
 	    digitalWrite(P9, LOW); //éteindre ser
-
+	    EEPROM.write(5, 0);
 	  }
 
 	  // casier 4
-	  if (coilValue6 == 0){
+	  if (EEPROM.read(6) == 0){
 	    digitalWrite(P10, HIGH); //allumer L1 rouge
 	    digitalWrite(P11, LOW); // Eteindre L1 vert
 	  } else{
@@ -135,12 +173,12 @@ void loop() //fonction principale, elle se répète (s’exécute) à l'infini
 	    }
 
 
-	  if (coilValue7 == 1){
+	  if (EEPROM.read(7) == 1){
 	    digitalWrite(P12, HIGH); //allumer ser
-	    delay(3000);
-	    coilValue1 = ModbusRTUServer.coilWrite(0x01, 0);
+	    delay(tempOuvGache);
+	    coilValue7 = ModbusRTUServer.coilWrite(0x07, 0);
 	    digitalWrite(P12, LOW); //éteindre ser
-
+	    EEPROM.write(7, 0);
 	  }
 
 

@@ -17,7 +17,9 @@ sloeber.ino.cpp.o: ..\sloeber.ino.cpp \
  C:\Users\Hugo\Sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.8.2\cores\arduino/Client.h \
  C:\Users\Hugo\Sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.8.2\cores\arduino/IPAddress.h \
  C:\Users\Hugo\Sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.8.2\cores\arduino/IPAddress.h \
- ..\lib/ModbusTCPServer.h ..\CMD_Consignes.ino
+ ..\lib/ModbusTCPServer.h \
+ C:\Users\Hugo\Sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.8.2\libraries\EEPROM\src/EEPROM.h \
+ ..\CMD_Consignes.ino
 
 C:\Users\Hugo\Sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.8.2\cores\arduino/Arduino.h:
 
@@ -68,5 +70,7 @@ C:\Users\Hugo\Sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.8.2\cores\ar
 C:\Users\Hugo\Sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.8.2\cores\arduino/IPAddress.h:
 
 ..\lib/ModbusTCPServer.h:
+
+C:\Users\Hugo\Sloeber\arduinoPlugin\packages\arduino\hardware\avr\1.8.2\libraries\EEPROM\src/EEPROM.h:
 
 ..\CMD_Consignes.ino:
